@@ -1,3 +1,5 @@
 .idea/
-*.[pyc]
+*.pyc
 .DS_Store
+project_venv
+chatsite/db.sqlite3
