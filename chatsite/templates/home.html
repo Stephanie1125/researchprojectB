@@ -17,10 +17,9 @@
             color: midnightblue;
             }
     </style>
+    <h1><b style="color:snow; font-size: larger"> -- Issue Board -- </b></h1><p align = right><b style="color:snow; font-size: medium">Search : </b><input type=text style="width: 30%;">
+        <input type=submit value="Search"></p><hr><hr>
 </head>
-    <h1><b style="color:snow; font-size: larger"> -- Issue Board -- </b></h1>
-        <p align = right> <b style="color:snow; font-size: medium">Search : </b><input type=text style="width: 30%;">
-        <input type=submit value="Search"></p><hr>
     <div style="background-color:white;color:black;padding:80px;height: 500pt">
         {% for post in post_list %}
         <h2>
@@ -28,10 +27,11 @@
         </h2>
         {% endfor %}
     </div>
-    <hr>
+    <hr><hr>
     <body style="margin: 5%" background="https://images.unsplash.com/photo-1465158753229-aa725fff85a1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=1b1d5afac6ea6583b441b809b188bdae">
         <div class = "center">
             <h3 style="color:snow">
+               <p align = left>>> Go to " <a href="{% url 'livechat' %}"  style="color: lightcyan" > Live Chat Room </a> "</p>
                 >> How to add an issue << <br><br>
                 1. go to /admin <br>
                 2. log in using your username and password <br>

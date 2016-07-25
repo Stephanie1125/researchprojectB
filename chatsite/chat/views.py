@@ -14,4 +14,3 @@ def post_detail(request, pk):
     return render(request, 'post.html', {
         'post': post,
     })
-
