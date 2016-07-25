@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ProjectB - add issue post- Stephanie</title>
+    <style>
+        .center{
+            margin: auto;
+            width: 98%;
+            border: 3px solid snow;
+            padding: 20px;
+            }
+        em{
+            color: floralwhite;
+            }
+    </style>
+</head>
+    <h1><b style="color:snow; font-size: larger"> -- Issue Post Form -- </b></h1>
+
+<body style="margin: 5%" background="https://images.unsplash.com/photo-1465158753229-aa725fff85a1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=1b1d5afac6ea6583b441b809b188bdae">
+        <br><br>
+            <div class = "center">
+            <form action="/api/issue_submit" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <em>Title: </em>
+                    <input type="text" name="title"><br><br>
+                <em>Your name: </em>
+                    <input type="text" name="name"><br><br>
+                <em>Your email: </em>
+                    <input type="text" name="email"><br><br>
+                <em>Content: </em><br><br>
+                    <textarea name = "content" style="width: 100%;height:200px"></textarea><br><br>
+                    <input type=submit value="------ Submit -------" style="width: 100%;">
+            </form>
+            </div>
+</body>
+
+</html>

@@ -28,4 +28,3 @@ def chat_submit(request):
     save_message.message = message
     save_message.save()
     return redirect(r'http://127.0.0.1:8000/livechat')
-

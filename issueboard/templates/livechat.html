@@ -19,12 +19,13 @@
     </style>
 </head>
     <h1><b style="color:snow; font-size: larger"> -- Live Chat Room -- </b></h1>
-        <p align = right> <b style="color:snow; font-size: medium">Search : </b><input type=text style="width: 30%;">
-        <input type=submit value="Search"></p><hr>
+        <p align = right> <b style="color:snow; font-size: medium">Back to " <a href="{% url 'home' %}"  style="color: lightcyan" > Home Page </a> " </b><hr>
 <div style="background-color:white;color:black;padding:80px;height: 500pt">
     {% for message in message_list %}
     <b style="color:darkblue">
-        <p> {{ message.name  }}({{ message.create_at }}): {{ message.message }} </p>
+        <p><b style="color:black">{{ message.name  }}:</b>
+            <b style="color:darkblue"> {{ message.message }}</b>
+            <b style="color:lightseagreen">({{ message.create_at }})</b></p>
     </b>
     {% endfor %}
 </div>

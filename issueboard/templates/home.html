@@ -21,9 +21,9 @@
         <input type=submit value="Search"></p><hr><hr>
 </head>
     <div style="background-color:white;color:black;padding:80px;height: 500pt">
-        {% for post in post_list %}
+        {% for issue in issue_list %}
         <h2>
-        <a href="{% url 'post_detail' pk=post.pk %}">Issue {{post.pk}} : {{ post.title }}</a>
+        <a href="{% url 'issue_detail' pk=issue.pk %}">Issue {{issue.pk}} : {{ issue.title }}</a>
         </h2>
         {% endfor %}
     </div>
@@ -32,10 +32,7 @@
         <div class = "center">
             <h3 style="color:snow">
                <p align = left>>> Go to " <a href="{% url 'livechat' %}"  style="color: lightcyan" > Live Chat Room </a> "</p>
-                >> How to add an issue << <br><br>
-                1. go to /admin <br>
-                2. log in using your username and password <br>
-                3. add a post <br>
+                <p align = left>>> Add " <a href="{% url 'add_issue' %}"  style="color: lightcyan" > a new issue </a> "</p>
             </h3>
         </div>
     </body>

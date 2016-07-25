@@ -7,17 +7,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('chat', '0003_delete_message'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Message',
+            name='ChatBoard',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
-                ('name', models.CharField(max_length=100)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('create_at', models.DateTimeField(auto_now_add=True, auto_created=True)),
+                ('name', models.CharField(max_length=100, default='anonymous')),
                 ('message', models.TextField(blank=True)),
-                ('created_time', models.DateTimeField(auto_now_add=True)),
             ],
         ),
     ]
