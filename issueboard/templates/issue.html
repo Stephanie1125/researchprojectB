@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ProjectB - chat - Stephanie</title>
+    <title>ProjectB - issue - Stephanie</title>
     <style>
         .center{
             margin: auto;
@@ -19,18 +19,38 @@
     </style>
 </head>
     <h1><b style="color:snow; font-size: larger"> -- Issue Board -- </b></h1>
-        <p align = right> <b style="color:snow; font-size: medium">Search : </b><input type=text style="width: 30%;">
-        <input type=submit value="Search"></p><hr>
+        <p align = right> <b style="color:snow; font-size: medium">Back to " <a href="{% url 'home' %}"  style="color: lightcyan" > Home Page </a> " </b><hr>
+{#        <p align = right> <b style="color:snow; font-size: medium">Search : </b><input type=text style="width: 30%;">#}
+{#        <input type=submit value="Search"></p><hr>#}
 <div style="background-color:white;color:black;padding:80px;height: 500pt">
     <h2><b style="color:darkblue">Issue {{issue.pk}} ({{ issue.title }}) :</b><hr></h2>
     <h3>Content: <br> >> {{ issue.content }}<br><hr></h3>
+    {% for message in issue_chat_list %}
+        <b style="color:darkblue">
+            <p>
+                {% if message.issue_title == issue.title %}
+                    <b style="color:black">{{ message.name  }}:</b>
+                    <b style="color:darkblue"> {{ message.message }}</b>
+                    <b style="color:lightseagreen">({{ message.create_at }})</b>
+                {% endif %}
+            </p>
+        </b>
+    {% endfor %}
 </div>
     <body style="margin: 5%" background="https://images.unsplash.com/photo-1465158753229-aa725fff85a1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=1b1d5afac6ea6583b441b809b188bdae">
     <br><br>
         <div class = "center">
-            <form method=get>
+            <form action="/api/issue_chat_submit" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <em>Issue title: </em>
+                <input type="text" name="issue_title" value = {{ issue.title }}>&nbsp;&nbsp;&nbsp;&nbsp;
+                <b style="color:lightcyan"> ( Note ) Please enter this title: " </b>
+                <b style="color:lightgoldenrodyellow"> {{ issue.title }} </b>
+                <b style="color:lightcyan"> " in order to reply this issue post.</b><br><br>
                 <em>Your name: </em>
-                <input type="text" name="name"><br><br>
+                <input type="text" name="name">&nbsp;&nbsp;&nbsp;&nbsp;
+                <b style="color:lightcyan"> ( Note ) Please enter your name. </b><br><br>
                 <em>Leave messages here: </em><br><br>
                 <textarea name = message style="width: 100%;height:200px"></textarea><br><br>
                 <input type=submit value="------ Submit -------" style="width: 100%;">
