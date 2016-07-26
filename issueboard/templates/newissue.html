@@ -16,9 +16,10 @@
     </style>
 </head>
     <h1><b style="color:snow; font-size: larger"> -- Issue Post Form -- </b></h1>
+        <p align = right> <b style="color:snow; font-size: medium">Back to " <a href="{% url 'home' %}"  style="color: lightcyan" > Home Page </a> " </b><hr>
 
 <body style="margin: 5%" background="https://images.unsplash.com/photo-1465158753229-aa725fff85a1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=1b1d5afac6ea6583b441b809b188bdae">
-        <br><br>
+        <br>
             <div class = "center">
             <form action="/api/issue_submit" method="post">
                 {% csrf_token %}
@@ -34,6 +35,23 @@
                     <input type=submit value="------ Submit -------" style="width: 100%;">
             </form>
             </div>
+            <hr><hr>
+
+        <div class = "center">
+            <h3 style="color:snow">
+               <p align = left>>> Please follow the following rules to create a new post : <br><br>
+               1. Title : Please enter a title name without any empty space. <br>
+                   &nbsp;&nbsp;&nbsp;&nbsp;<b style="color:lightgreen">(valid)
+                   example title: Test_period, Vacation, Information_of_calculus_class, Grade_report ...etc </b><br>
+                   &nbsp;&nbsp;&nbsp;&nbsp;<b style="color:lightpink">(invalid)
+                       example title: Exam period, Class information (white space included)</b> <br><br>
+               2. Your name : Please enter your name here.<br><br>
+               3. Your email: Please enter a valid email address here. <br><br>
+               4. Content: Leave your messages or problems here.   <br><br>
+               5. Submit the form to post a new issue  <br><br>
+               </p>
+            </h3>
+        </div>
 </body>
 
 </html>

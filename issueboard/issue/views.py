@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import IssuePost, IssueChat
 from django import forms
+from django.core.urlresolvers import reverse
 
 
 def home(request):
@@ -53,20 +54,13 @@ def issue_submit(request):
     return redirect(r'http://127.0.0.1:8000/home')
 
 
-# def issue_chat_detail(request):
-#     issue_chat_list = IssueChat.objects.all().order_by('pk')
-#     return render(request, 'issue.html', {
-#         'issue_chat_list': issue_chat_list,
-#     })
-
-
 class IssueChatForm(forms.Form):
     issue_title = forms.CharField(max_length=100)
     name = forms.CharField(max_length=100)
     message = forms.CharField(max_length=500)
 
 
-def issue_chat_submit(request):
+def issue_chat_submit(request, pk):
     if request.method == 'POST':
         f = IssueChatForm(request.POST)
         if f.is_valid():
@@ -81,7 +75,8 @@ def issue_chat_submit(request):
     save_message.name = name
     save_message.message = message
     save_message.save()
-    return redirect(r'http://127.0.0.1:8000/home')
+    return redirect(reverse('issue_detail', args=(pk,)))
+
 
 
 

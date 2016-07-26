@@ -40,7 +40,7 @@
     <body style="margin: 5%" background="https://images.unsplash.com/photo-1465158753229-aa725fff85a1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=1b1d5afac6ea6583b441b809b188bdae">
     <br><br>
         <div class = "center">
-            <form action="/api/issue_chat_submit" method="post">
+            <form action="{% url 'issue_chat_submit' pk=issue.pk %}" method="post">
                 {% csrf_token %}
                 {{ form }}
                 <em>Issue title: </em>

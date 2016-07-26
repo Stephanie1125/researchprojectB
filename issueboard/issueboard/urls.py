@@ -13,7 +13,6 @@ urlpatterns = [
     url(r'^issue/(?P<pk>\d+)/$', issue_detail, name='issue_detail'),
     url(r'^livechat$', livechat, name='livechat'),
     url(r'^api/chat_submit$', chat_submit, name='chat_submit'),
-    # url(r'^issue/(?P<pk>\d+)/$', issue_chat_detail, name='issue_chat_detail'),
-    url(r'^api/issue_chat_submit$', issue_chat_submit, name='issue_chat_submit'),
+    url(r'^api/issue_chat_submit/(?P<pk>\d+)$', issue_chat_submit, name='issue_chat_submit'),
 
 ]
