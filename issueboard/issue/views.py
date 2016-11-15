@@ -2,13 +2,53 @@ from django.shortcuts import render, redirect
 from .models import IssuePost, IssueChat
 from django import forms
 from django.core.urlresolvers import reverse
+from django.contrib.auth import authenticate, get_user_model, login, logout
+from .user_forms import UserLoginForm, UserRegisterForm
 
 
 def home(request):
     issue_list = IssuePost.objects.all().order_by('pk')
+    query = request.GET.get("q")
+    if query:
+        issue_list = issue_list.filter(title__icontains=query)
     return render(request, 'home.html', {
         'issue_list': issue_list,
     })
+
+
+def user_login(request):
+    form = UserLoginForm(request.POST or None)
+    title = 'User login'
+    if form.is_valid():
+        username = form.cleaned_data.get("username")
+        password = form.cleaned_data.get("password")
+        user = authenticate(username=username, password=password)
+        login(request, user)
+        return redirect("/home")
+    return render(request, 'form.html', {'form': form, 'title': title})
+
+
+def user_logout(request):
+    logout(request)
+    return redirect("/home")
+
+def user_register(request):
+    title = "User Register"
+    form = UserRegisterForm(request.POST or None)
+    if form.is_valid():
+        user = form.save(commit=False)
+        password = form.cleaned_data.get("password")
+        user.set_password(password)
+        user.save()
+        new_user = authenticate(username=user.username, password = password)
+        login(request, new_user)
+        return redirect("/home")
+
+    context = {
+        'form': form,
+        'title': title,
+    }
+    return render(request, 'form.html', context)
 
 
 def issue_detail(request, pk):
