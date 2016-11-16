@@ -16,7 +16,7 @@
     </style>
 </head>
     <h1><b style="color:snow; font-size: larger"> -- Issue Post Form -- </b></h1>
-        <p align = right> <b style="color:snow; font-size: medium">Back to " <a href="{% url 'home' %}"  style="color: lightcyan" > Home Page </a> " </b><hr>
+        <p align = right> <b style="color:snow; font-size: medium">Back to " <a href="{% url 'home' %}"  style="color: lightcyan" > Home Page </a> " </b>
 
 <body style="margin: 5%" background="https://images.unsplash.com/photo-1465158753229-aa725fff85a1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=1b1d5afac6ea6583b441b809b188bdae">
         <br>
@@ -26,16 +26,24 @@
                 {{ form }}
                 <em>Title: </em>
                     <input type="text" name="title"><br><br>
-                <em>Your name: </em>
+                {% if user.is_authenticated %}
+                    <em>Your name: </em>
+                    <input type="text" name="name" value="{{ user.get_username }}"><br><br>
+                    <em>Your email: </em>
+                    <input type="text" name="email" value="{{ user.email }}"><br><br>
+                {% else %}
+                    <em>Your name: </em>
                     <input type="text" name="name"><br><br>
-                <em>Your email: </em>
+                    <em>Your email: </em>
                     <input type="text" name="email"><br><br>
+                {% endif %}
+
                 <em>Content: </em><br><br>
                     <textarea name = "content" style="width: 100%;height:200px"></textarea><br><br>
                     <input type=submit value="------ Submit -------" style="width: 100%;">
             </form>
             </div>
-            <hr><hr>
+            <br>
 
         <div class = "center">
             <h3 style="color:snow">
