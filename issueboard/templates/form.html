@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ProjectB - userlogin - Stephanie</title>
+    <title>ProjectB&C - userlogin - Stephanie</title>
     <style>
         .center{
             margin: auto;
@@ -16,15 +16,25 @@
 
         label{
             display: block;
-            margin: 5px;
+            margin: 10px;
         }
 
         .helptext {
             display: none;
         }
 
-        input {
+        input:not([type="submit"]) {
             width: 80%;
+            border: 0;
+            border-radius: 0;
+            outline: 0;
+            background: transparent;
+            border-bottom: 1px solid #ffffff;
+            color: white;
+        }
+
+        input:not([type="submit"]):focus {
+        border-bottom: 1px solid cyan;
         }
 
         .errorlist {
