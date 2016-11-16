@@ -6,7 +6,7 @@
     <style>
         .center{
             margin: auto;
-            width: 98%;
+            width: 95%;
             border: 3px solid snow;
             padding: 20px;
             }
@@ -20,7 +20,7 @@
 </head>
     <h1><b style="color:snow; font-size: larger"> -- Issue Board -- </b></h1>
         <p align = right> <b style="color:snow; font-size: medium">Back to " <a href="{% url 'home' %}"  style="color: lightcyan" > Home Page </a> " </b>
-<div style="background-color:white;color:black;padding:80px;height: 500pt">
+<div style="background-color:white;color:black;padding:80px;height: 330pt">
     <h2><b style="color:darkblue">Issue {{issue.pk}} ({{ issue.title }}) :</b><hr></h2>
     <h3>Content: <br> >> {{ issue.content }}<br><hr></h3>
     {% for message in issue_chat_list %}

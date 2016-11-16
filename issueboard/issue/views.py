@@ -4,6 +4,7 @@ from django import forms
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, get_user_model, login, logout
 from .user_forms import UserLoginForm, UserRegisterForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def home(request):
@@ -11,8 +12,16 @@ def home(request):
     query = request.GET.get("q")
     if query:
         issue_list = issue_list.filter(title__icontains=query)
+    paginator = Paginator(issue_list, 10)
+    page = request.GET.get('page')
+    try:
+        issues = paginator.page(page)
+    except PageNotAnInteger:
+        issues = paginator.page(1)
+    except EmptyPage:
+        issues = paginator.page(paginator.num_pages)
     return render(request, 'home.html', {
-        'issue_list': issue_list,
+        'issues': issues,
     })
 
 

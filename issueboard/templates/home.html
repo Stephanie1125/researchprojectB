@@ -6,7 +6,7 @@
     <style>
         .center{
             margin: auto;
-            width: 98%;
+            width: 95%;
             border: 3px solid snow;
             padding: 20px;
             }
@@ -32,12 +32,22 @@
             <input type=submit value="Search"></p>
         </form>
 </head>
-    <div style="background-color:white;color:black;padding:80px;height: 500pt">
-        {% for issue in issue_list %}
+    <div style="background-color:white;color:black;padding:80px;height: 330pt">
+        {% for issue in issues %}
         <h3>
         <a style="color: darkblue;" href="{% url 'issue_detail' pk=issue.pk %}">Issue {{issue.pk}} : {{ issue.title }}</a>
         </h3>
         {% endfor %}
+        <p align = middle>
+            Page:
+            {% for num in issues.paginator.page_range %}
+              {% ifequal num issues.number %}
+                <span class="current"><b>{{ num }}</b></span>
+              {% else %}
+                <a href="?page={{ num }}"> {{ num }}</a>
+              {% endifequal %}
+            {% endfor %}
+        </p>
     </div>
     <br>
     <body style="margin: 5%" background="https://images.unsplash.com/photo-1465158753229-aa725fff85a1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=1b1d5afac6ea6583b441b809b188bdae">
