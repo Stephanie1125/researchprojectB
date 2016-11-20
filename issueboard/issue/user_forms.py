@@ -24,6 +24,9 @@ class UserRegisterForm(forms.ModelForm):
     email = forms.EmailField(label='Email')
     confirm_email = forms.EmailField(label='Comfirm email')
     password = forms.CharField(widget=forms.PasswordInput)
+
+    access_code = forms.CharField(label='Sakai Lab access code')
+
     class Meta:
         model = User
         fields = [
@@ -31,14 +34,20 @@ class UserRegisterForm(forms.ModelForm):
             'email',
             "confirm_email",
             'password',
+            'access_code',
         ]
 
     def clean(self, *args, **kwargs):
         email = self.cleaned_data.get('email')
         email2 = self.cleaned_data.get('confirm_email')
+        access_code = self.cleaned_data.get('access_code')
 
         if email != email2:
             raise forms.ValidationError("Emails must match")
+
+        if access_code != '1984':
+            raise forms.ValidationError("Wrong access code. Cannot register.")
+
 
         return super(UserRegisterForm, self).clean(*args, **kwargs)
 

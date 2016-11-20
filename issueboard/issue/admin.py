@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import IssuePost, IssueChat
 
 class IssueBoardAdmin(admin.ModelAdmin):
-    list_display = ('title','name', 'email', 'content', 'create_time')
+    list_display = ('title', 'name', 'email', 'content', 'create_time')
 
 admin.site.register(IssuePost, IssueBoardAdmin)
 

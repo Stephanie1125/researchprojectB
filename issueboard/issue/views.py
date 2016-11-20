@@ -5,8 +5,9 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, get_user_model, login, logout
 from .user_forms import UserLoginForm, UserRegisterForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
 
-
+@login_required(login_url='/login')
 def home(request):
     issue_list = IssuePost.objects.all().order_by('pk')
     query = request.GET.get("q")
@@ -73,8 +74,18 @@ class IssueForm(forms.Form):
     title = forms.CharField(max_length=100)
     name = forms.CharField(max_length=100)
     email = forms.CharField(max_length=100)
-    content = forms.CharField(max_length = 1000)
+    content = forms.CharField(max_length= 1000)
 
+    def clean(self, *args, **kwargs):
+        title = self.cleaned_data.get("title")
+        name = self.cleaned_data.get("name")
+        email = self.cleaned_data.get("email")
+        content = self.cleaned_data.get("content")
+
+        if not title and content and name and email:
+            raise forms.ValidationError("Please input all the fields.")
+
+        return super(IssueForm, self).clean(*args, **kwargs)
 
 def add_issue(request):
     issue_list = IssuePost.objects.all()
@@ -85,22 +96,27 @@ def add_issue(request):
 
 def issue_submit(request):
     if request.method == 'POST':
-        f = IssueForm(request.POST)
+        f = IssueForm(request.POST or None)
         if f.is_valid():
-            title = f.cleaned_data['title']
-            name = f.cleaned_data['name']
-            email = f.cleaned_data['email']
-            content = f.cleaned_data['content']
-        else:
-            return home(request)
+            # title = f.cleaned_data.get('title')
+            # name = f.cleaned_data.get('name')
+            # email = f.cleaned_data.get('email')
+            # content = f.cleaned_data.get('content')
 
-    save_issuepost = IssuePost()
-    save_issuepost.title = title
-    save_issuepost.name = name
-    save_issuepost.email = email
-    save_issuepost.content = content
-    save_issuepost.save()
-    return redirect(r'http://127.0.0.1:8000/home')
+            save_issuepost = IssuePost()
+            save_issuepost.title = f.title
+            save_issuepost.name = f.name
+            save_issuepost.email = f.email
+            save_issuepost.content = f.content
+            save_issuepost.save()
+
+        else:
+            context = {
+                'form': f,
+            }
+            return render(request, 'newissue.html', context)
+
+    return redirect('/home')
 
 
 class IssueChatForm(forms.Form):

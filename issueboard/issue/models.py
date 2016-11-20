@@ -1,7 +1,6 @@
 
 from django.db import models
 
-
 class IssuePost(models.Model):
     title = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
@@ -11,7 +10,6 @@ class IssuePost(models.Model):
 
     def __str__(self):
         return self.title
-
 
 class IssueChat(models.Model):
     issue_title = models.CharField(max_length = 100)

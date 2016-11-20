@@ -12,11 +12,14 @@
             }
         em{
             color: floralwhite;
+            display: block;
+            margin: 10px;
             }
 
         label{
             display: block;
             margin: 10px;
+            color: floralwhite;
         }
 
         .helptext {
@@ -50,8 +53,10 @@
             <div class = "center">
             <form method="POST" action="">
                 {% csrf_token %}
+                {% block form %}
                 <em>{{ form }}</em><br><br>
                 <input type="submit" value="------ Submit -------">
+                {% endblock form %}
             </form>
             </div>
 

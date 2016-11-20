@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
+{% block head %}
     <meta charset="UTF-8">
     <title>ProjectB&C - home - Stephanie</title>
     <style>
@@ -31,8 +32,10 @@
            　<input type=text name="q" value="{{ request.GET.q }}" placeholder="Search Issues" style="width: 30%;">
             <input type=submit value="Search"></p>
         </form>
+{% endblock head %}
 </head>
     <div style="background-color:white;color:black;padding:80px;height: 330pt">
+        {% block body %}
         {% for issue in issues %}
         <h3>
         <a style="color: darkblue;" href="{% url 'issue_detail' pk=issue.pk %}">Issue {{issue.pk}} : {{ issue.title }}</a>
@@ -48,6 +51,7 @@
               {% endifequal %}
             {% endfor %}
         </p>
+        {% endblock body %}
     </div>
     <br>
     <body style="margin: 5%" background="https://images.unsplash.com/photo-1465158753229-aa725fff85a1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=1b1d5afac6ea6583b441b809b188bdae">
