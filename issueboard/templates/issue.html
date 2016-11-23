@@ -20,7 +20,7 @@
 </head>
     <h1><b style="color:snow; font-size: larger"> -- Issue Board -- </b></h1>
         <p align = right> <b style="color:snow; font-size: medium">Back to " <a href="{% url 'home' %}"  style="color: lightcyan" > Home Page </a> " </b>
-<div style="background-color:white;color:black;padding:80px;height: 330pt">
+<div style="background-color:white;color:black;padding:80px;height: 330pt;overflow: scroll;">
     <h2><b style="color:darkblue">Issue {{issue.pk}} ({{ issue.title }}) :</b><hr></h2>
     <h3>Content: <br> >> {{ issue.content }}<br><hr></h3>
     {% for message in issue_chat_list %}
@@ -42,7 +42,7 @@
                 {% csrf_token %}
                 {{ form }}
                 <em>Issue title: </em>
-                <input type="text" name="issue_title" value = {{ issue.title }}>&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" name="issue_title" value = "{{ issue.title }}">&nbsp;&nbsp;&nbsp;&nbsp;
                 <b style="color:lightcyan"> ( Note ) Please enter this title: " </b>
                 <b style="color:lightgoldenrodyellow"> {{ issue.title }} </b>
                 <b style="color:lightcyan"> " in order to reply this issue post.</b><br><br>

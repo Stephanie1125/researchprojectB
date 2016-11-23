@@ -1,10 +1,11 @@
 from django import forms
-from django.contrib.auth import authenticate, get_user_model, login, logout
+from django.contrib.auth import authenticate, get_user_model
 
 User = get_user_model()
 
+
 class UserLoginForm(forms.Form):
-    username = forms.CharField()
+    username = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput)
 
     def clean(self, *args, **kwargs):
@@ -47,7 +48,6 @@ class UserRegisterForm(forms.ModelForm):
 
         if access_code != '1984':
             raise forms.ValidationError("Wrong access code. Cannot register.")
-
 
         return super(UserRegisterForm, self).clean(*args, **kwargs)
 

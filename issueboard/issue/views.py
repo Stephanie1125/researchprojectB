@@ -2,17 +2,27 @@ from django.shortcuts import render, redirect
 from .models import IssuePost, IssueChat
 from django import forms
 from django.core.urlresolvers import reverse
-from django.contrib.auth import authenticate, get_user_model, login, logout
+from django.contrib.auth import authenticate, login, logout
 from .user_forms import UserLoginForm, UserRegisterForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+
+
+
+def initial(request):
+    return redirect("/home")
+
 
 @login_required(login_url='/login')
 def home(request):
-    issue_list = IssuePost.objects.all().order_by('pk')
+    issue_list = IssuePost.objects.all().order_by('-create_time')
     query = request.GET.get("q")
     if query:
-        issue_list = issue_list.filter(title__icontains=query)
+        issue_list = issue_list.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query)).distinct()
+
     paginator = Paginator(issue_list, 10)
     page = request.GET.get('page')
     try:
@@ -23,6 +33,7 @@ def home(request):
         issues = paginator.page(paginator.num_pages)
     return render(request, 'home.html', {
         'issues': issues,
+        'username': request.user.username
     })
 
 
@@ -35,12 +46,13 @@ def user_login(request):
         user = authenticate(username=username, password=password)
         login(request, user)
         return redirect("/home")
-    return render(request, 'form.html', {'form': form, 'title': title})
+    return render(request, 'login_form.html', {'form': form, 'title': title})
 
 
 def user_logout(request):
     logout(request)
     return redirect("/home")
+
 
 def user_register(request):
     title = "User Register"
@@ -50,7 +62,7 @@ def user_register(request):
         password = form.cleaned_data.get("password")
         user.set_password(password)
         user.save()
-        new_user = authenticate(username=user.username, password = password)
+        new_user = authenticate(username=user.username, password= password)
         login(request, new_user)
         return redirect("/home")
 
@@ -58,9 +70,10 @@ def user_register(request):
         'form': form,
         'title': title,
     }
-    return render(request, 'form.html', context)
+    return render(request, 'register_form.html', context)
 
 
+@login_required(login_url='/login')
 def issue_detail(request, pk):
     issue = IssuePost.objects.get(pk=pk)
     issue_chat_list = IssueChat.objects.all().order_by('pk')
@@ -74,7 +87,7 @@ class IssueForm(forms.Form):
     title = forms.CharField(max_length=100)
     name = forms.CharField(max_length=100)
     email = forms.CharField(max_length=100)
-    content = forms.CharField(max_length= 1000)
+    content = forms.CharField(max_length=1000)
 
     def clean(self, *args, **kwargs):
         title = self.cleaned_data.get("title")
@@ -82,41 +95,45 @@ class IssueForm(forms.Form):
         email = self.cleaned_data.get("email")
         content = self.cleaned_data.get("content")
 
-        if not title and content and name and email:
+        if not title or not content or not name or not email:
             raise forms.ValidationError("Please input all the fields.")
 
         return super(IssueForm, self).clean(*args, **kwargs)
 
+
+@login_required(login_url='/login')
 def add_issue(request):
     issue_list = IssuePost.objects.all()
+    form = IssueForm(request.POST or None)
     return render(request, 'newissue.html', {
         'issue_list': issue_list,
+        'form': form,
     })
 
 
+@login_required(login_url='/login')
 def issue_submit(request):
     if request.method == 'POST':
         f = IssueForm(request.POST or None)
         if f.is_valid():
-            # title = f.cleaned_data.get('title')
-            # name = f.cleaned_data.get('name')
-            # email = f.cleaned_data.get('email')
-            # content = f.cleaned_data.get('content')
+            title = f.cleaned_data.get('title')
+            name = f.cleaned_data.get('name')
+            email = f.cleaned_data.get('email')
+            content = f.cleaned_data.get('content')
 
             save_issuepost = IssuePost()
-            save_issuepost.title = f.title
-            save_issuepost.name = f.name
-            save_issuepost.email = f.email
-            save_issuepost.content = f.content
+            save_issuepost.title = title
+            save_issuepost.name = name
+            save_issuepost.email = email
+            save_issuepost.content = content
             save_issuepost.save()
 
-        else:
-            context = {
-                'form': f,
-            }
-            return render(request, 'newissue.html', context)
+            return redirect('/home')
 
-    return redirect('/home')
+        context = {
+            'form': f,
+        }
+        return render(request, 'newissue.html', context)
 
 
 class IssueChatForm(forms.Form):
@@ -125,6 +142,7 @@ class IssueChatForm(forms.Form):
     message = forms.CharField(max_length=500)
 
 
+@login_required(login_url='/login')
 def issue_chat_submit(request, pk):
     if request.method == 'POST':
         f = IssueChatForm(request.POST)
@@ -141,7 +159,5 @@ def issue_chat_submit(request, pk):
     save_message.message = message
     save_message.save()
     return redirect(reverse('issue_detail', args=(pk,)))
-
-
 
 
