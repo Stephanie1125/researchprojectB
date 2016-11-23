@@ -2,5 +2,4 @@
 *.pyc
 .DS_Store
 project_venv
-*.sqlite3
 
