@@ -1,10 +1,9 @@
 
-from django.shortcuts import render, redirect
-from .models import ChatBoard, ChatRoom
-from django import forms
+from .models import ChatBoard
 from issue.views import *
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
+
 
 def livechat(request, roomname):
     form = MessageForm(request.POST or None)
@@ -45,7 +44,6 @@ def create_chat(request, username):
                 return redirect(reverse('livechat', args=(username,)))
 
         return redirect(reverse('livechat', args=(username,)))
-
 
 
 @staff_member_required
