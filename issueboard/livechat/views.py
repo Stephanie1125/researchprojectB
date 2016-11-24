@@ -5,11 +5,9 @@ from django import forms
 from issue.views import *
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
-import urllib
 
 def livechat(request, roomname):
     form = MessageForm(request.POST or None)
-    url = request.get_full_path()
     message_list = ChatBoard.objects.all().order_by('pk')
     if request.user.is_authenticated():
         room_id = roomname + ' chatroom'
@@ -46,10 +44,7 @@ def create_chat(request, username):
                 save_message.save()
                 return redirect(reverse('livechat', args=(username,)))
 
-        context = {
-            'form': f,
-        }
-        return render(request, 'livechat.html', context)
+        return redirect(reverse('livechat', args=(username,)))
 
 
 
@@ -69,21 +64,6 @@ def chatroom_admin(request):
         added_username.add(message.name)
         rooms.append(message)
 
-    query = request.GET.get("q")
-    if query:
-        message_room_list = message_room_list.filter(
-            Q(title__icontains=query) |
-            Q(content__icontains=query)).distinct()
-
-    paginator = Paginator(message_room_list, 10)
-    page = request.GET.get('page')
-    try:
-        chatroom = paginator.page(page)
-    except PageNotAnInteger:
-        chatroom = paginator.page(1)
-    except EmptyPage:
-        chatroom = paginator.page(paginator.num_pages)
     return render(request, 'chatroom.html', {
-        'chatroom': chatroom,
         'rooms': rooms,
     })

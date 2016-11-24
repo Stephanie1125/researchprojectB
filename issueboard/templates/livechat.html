@@ -6,15 +6,15 @@
 
         window.onbeforeunload = function() {
             sessionStorage.setItem("msg", document.getElementById("message").value);
-        }
+        };
 
 
         window.onload = function() {
 
             var name = sessionStorage.getItem("msg");
             if (name !== null) document.getElementById('message').value=name;
-        }
 
+        };
 
         setTimeout(function () { location.reload()}, 15000);
 
@@ -38,7 +38,7 @@
 </head>
     <h1><b style="color:snow; font-size: larger"> -- Live Chat Room -- </b></h1>
         <p align = right> <b style="color:snow; font-size: medium">Back to " <a href="{% url 'home' %}"  style="color: lightcyan" > Home Page </a> " </b><hr>
-<div name="message" style="background-color:white;color:black;padding:80px;height: 500pt">
+<div name="message" style="background-color:white;color:black;padding:80px;height: 500pt; overflow: scroll;">
     {% for message in message_list %}
     <b style="color:darkblue">
         <p><b style="color:black">{{ message.name  }}:</b>
