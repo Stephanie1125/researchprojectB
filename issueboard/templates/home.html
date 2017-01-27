@@ -1,71 +1,254 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html>
 <head>
-{% block head %}
-    <meta charset="UTF-8">
-    <title>ProjectB&C - home - Stephanie</title>
-    <style>
-        .center{
-            margin: auto;
-            width: 95%;
-            border: 3px solid snow;
-            padding: 20px;
-            }
-        body{
-            background-color: #000046;
-            }
-        em{
-            color: midnightblue;
-            }
-    </style>
-    <h1><b style="color:snow; font-size: larger"> -- Issue Board -- </b></h1>
-    <p align = right>        <a href="{% url 'login' %}"  style="color: snow" > User Login </a>&nbsp;&nbsp;
-        <a href="{% url 'logout' %}"  style="color: snow" > User Logout </a><br/></br>
-        {% if user.is_authenticated %}
-            <span style="color: lightcyan">Welcome, {{ user.get_username }}. Thanks for logging in.</span>
-        {% else %}
-            <span style="color: lightcyan">Welcome, Guest.</span>
-        {% endif %}
-    </p>
-        <form method="GET" action="">
-            <p align = right><b style="color:snow; font-size: medium">Search : </b>
-           　<input type=text name="q" value="{{ request.GET.q }}" placeholder="Search Issues" style="width: 30%;">
-            <input type=submit value="Search"></p>
-        </form>
-{% endblock head %}
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    {% block js %}{% endblock js %}
+<title>Issue Board</title>
+<style type="text/css">
+    body {
+        margin: 0;
+        padding: 0;
+        background-color:#EAF5FD;
+        font: normal 13px "Lucida Grande", verdana, arial, helvetica, sans-serif;
+    }
+
+.header1{
+    height:60px;}
+
+.header2{
+    height:75px;
+    text-align:center;;
+    background-repeat:repeat-x;
+}
+
+h1{
+    font: 36px Palatino, "Times New Roman", Times, serif;
+    color: #006699;
+    font-weight:bold;
+    margin:0;
+    padding-top:15px;
+    letter-spacing:-2px;}
+
+.main_holder{
+    width:760px;
+    margin-left:auto;
+    margin-right: auto;
+    margin-top:15px;
+}
+
+
+.mid_column{
+    width:760px;
+    float:left;
+    background-color:#C1E3F9;
+    padding:14px;
+    font: 15px Palatino, "Times New Roman", Times, serif;
+}
+
+label{
+    display: block;
+    margin: 10px;
+}
+
+.helptext {
+    display: none;
+}
+
+input:not([type="submit"]) {
+    width: 80%;
+    border: 0;
+    border-radius: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid black;
+    color: black;
+}
+
+input:not([type="submit"]):focus {
+border-bottom: 1px solid #006699;
+}
+
+.errorlist {
+    color: red;
+}
+
+h2{
+    color:#006699;
+    margin-top:3px;
+    margin-bottom:3px;
+    font-weight:bold;
+    font: 25px Palatino, "Times New Roman", Times, serif;
+}
+
+h3{
+{#    text-transform: uppercase;#}
+    font-size:11px;
+    color:#003366;
+    background-repeat:repeat-x;
+    background-position: 0 16px;
+    padding-bottom:5px;
+    margin:0;
+}
+
+.nav-bg-outer{
+    padding-top:10px;
+    padding-bottom:3px;}
+
+.nav{
+    color:#006699;
+    font-size:12px;}
+
+.nav-bg-inner{
+    font-size:12px;
+    font-weight:bold;
+    color:#003366;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+    width: 100%;}
+
+a, a:link a:visited{
+    color:#32A57A;
+    font-size:11px;
+    font-weight:bold;
+    text-decoration:none;}
+
+a:hover{
+    color:#20684E;}
+
+
+</style>
+
+
 </head>
-    <div style="background-color:white;color:black;padding:80px;height: 330pt; overflow: scroll;">
-        {% block issuepost %}
-        {% for issue in issues %}
-        <h3>
-        <a style="color: darkblue;" href="{% url 'issue_detail' pk=issue.pk %}">Issue {{issue.pk}} : {{ issue.title }}</a>
-        </h3>
-        {% endfor %}
-        <p align = middle>
-            Page:
-            {% for num in issues.paginator.page_range %}
-              {% ifequal num issues.number %}
-                <span class="current"><b>{{ num }}</b></span>
-              {% else %}
-                <a href="?page={{ num }}"> {{ num }}</a>
-              {% endifequal %}
-            {% endfor %}
-        </p>
-        {% endblock issuepost %}
+
+<body>
+    <div class="header1"><h3 style="background-image:none;padding:10px;text-align:right;">
+      <a href="{% url 'register' %}" class="nav">User Register</a> |
+        <a href="{% url 'login' %}" class="nav">User Login</a> | <a href="{% url 'logout' %}"  class="nav">User Logout</a>
+        {% if user.is_authenticated %}
+            <p>Welcome, {{ user.get_username }}. Thanks for logging in.</p>
+        {% else %}
+            <p>Welcome, Guest.</p>
+        {% endif %}
+     <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </h3>
     </div>
-    <br>
-{% block note %}
-    <body style="margin: 5%" background="https://images.unsplash.com/photo-1465158753229-aa725fff85a1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=1b1d5afac6ea6583b441b809b188bdae">
-        <div class = "center">
-            <h3 style="color:snow">
-               <p align = left>
-                   >> Go to " <a href="{% url 'register' %}"  style="color: lightcyan" > User Register </a> " <br><br>
-                   >> Go to " <a href="{% url 'livechat' roomname=username%}"  style="color: lightcyan" > Live Chat Room </a> " <br><br>
-               >> Add " <a href="{% url 'add_issue' %}"  style="color: lightcyan" > a new issue </a> " <br><br>
-                >> Back to " <a href="{% url 'home' %}"  style="color: lightcyan" > Home Page </a> " </p>
-            </h3>
-        </div>
-    </body>
-{% endblock note %}
+    <div class="header2">
+        <h1>Issue Board</h1>
+        <div style="margin-top:-5px;">This is an issue board for collecting dialogues.</div>
+    </div>
+<div class="nav-bg-outer">
+<div class="nav-bg">
+<div class="nav-bg-inner">
+     {% block menu %}
+    <a href="{% url 'home' %}" class="nav">Home</a> | <a href="{% url 'about' %}" class="nav">About</a> | <a href="{% url 'home_issuepost' %}" class="nav">Issue Posts</a> | <a href="{% url 'livechat' roomname=username %}" class="nav">Live Chat Room</a> | <a href="{% url 'contact' %}" class="nav">Contact</a>
+         {% if request.user.is_staff %}
+         | <a href="{% url 'chatroom_admin' %}" class="nav">Admin</a>
+{% endif %}
+         </div>
+ {% endblock menu %}
+</div>
+</div>
+
+    <div class="main_holder">
+    <div class="mid_column">
+        {% block content %}
+        <h3>
+        Welcome to the issue board home page. Please take a look at the following website guidance:
+        </h3>
+        <p>
+            1) If you want to know the futher information about this issue board, please >> Go to " <a href="{% url 'about' %}"  style="color: red" > About </a> " Page.<br><br>
+           2)   If you don't have an account for this website. Please >> Go to " <a href="{% url 'register' %}"  style="color: red" > User Register </a> " Page. <br><br>
+            3)  If you want to leave a post, please refer to the "<a href="{% url 'home_issuepost' %}"  style="color: red" > Issue Posts </a>" Page <br><br>
+            4) If you want to ask a question privately to the website administrator, please >> Go to " <a href="{% url 'livechat' roomname=username %}"  style="color: red" > Live Chat Room </a> " <br><br>
+            5) If you want to contact the website abministrator, please refer to the "<a href="{% url 'contact' %}"  style="color: red" > Contact </a>" Page <br><br>
+            Thank you for you visiting :)
+        </p>
+    {% endblock content %}
+    </div>
+<br clear="all" /></div><br><br><br><br>
+</body>
 </html>
+
+
+
+
+
+
+
+
+
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#{% block head %}#}
+{#    <meta charset="UTF-8">#}
+{#    <title>ProjectB&C - home - Stephanie</title>#}
+{#    <style>#}
+{#        .center{#}
+{#            margin: auto;#}
+{#            width: 95%;#}
+{#            border: 3px solid snow;#}
+{#            padding: 20px;#}
+{#            }#}
+{#        body{#}
+{#            background-color: #000046;#}
+{#            }#}
+{#        em{#}
+{#            color: midnightblue;#}
+{#            }#}
+{#    </style>#}
+{#    <h1><b style="color:snow; font-size: larger"> -- Issue Board -- </b></h1>#}
+{#    <p align = right>        <a href="{% url 'login' %}"  style="color: snow" > User Login </a>&nbsp;&nbsp;#}
+{#        <a href="{% url 'logout' %}"  style="color: snow" > User Logout </a><br/></br>#}
+{#        {% if user.is_authenticated %}#}
+{#            <span style="color: lightcyan">Welcome, {{ user.get_username }}. Thanks for logging in.</span>#}
+{#        {% else %}#}
+{#            <span style="color: lightcyan">Welcome, Guest.</span>#}
+{#        {% endif %}#}
+{#    </p>#}
+{#        <form method="GET" action="">#}
+{#            <p align = right><b style="color:snow; font-size: medium">Search : </b>#}
+{#           　<input type=text name="q" value="{{ request.GET.q }}" placeholder="Search Issues" style="width: 30%;">#}
+{#            <input type=submit value="Search"></p>#}
+{#        </form>#}
+{#{% endblock head %}#}
+{#</head>#}
+{#    <div style="background-color:white;color:black;padding:80px;height: 330pt; overflow: scroll;">#}
+{#        {% block issuepost %}#}
+{#        {% for issue in issues %}#}
+{#        <h3>#}
+{#        <a style="color: darkblue;" href="{% url 'issue_detail' pk=issue.pk %}">Issue {{issue.pk}} : {{ issue.title }}</a>#}
+{#        </h3>#}
+{#        {% endfor %}#}
+{#        <p align = middle>#}
+{#            Page:#}
+{#            {% for num in issues.paginator.page_range %}#}
+{#              {% ifequal num issues.number %}#}
+{#                <span class="current"><b>{{ num }}</b></span>#}
+{#              {% else %}#}
+{#                <a href="?page={{ num }}"> {{ num }}</a>#}
+{#              {% endifequal %}#}
+{#            {% endfor %}#}
+{#        </p>#}
+{#        {% endblock issuepost %}#}
+{#    </div>#}
+{#    <br>#}
+{#{% block note %}#}
+{#    <body style="margin: 5%" background="https://images.unsplash.com/photo-1465158753229-aa725fff85a1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=1b1d5afac6ea6583b441b809b188bdae">#}
+{#        <div class = "center">#}
+{#            <h3 style="color:snow">#}
+{#               <p align = left>#}
+{#                   >> Go to " <a href="{% url 'register' %}"  style="color: lightcyan" > User Register </a> " <br><br>#}
+{#                   >> Go to " <a href="{% url 'livechat' roomname=username%}"  style="color: lightcyan" > Live Chat Room </a> " <br><br>#}
+{#               >> Add " <a href="{% url 'add_issue' %}"  style="color: lightcyan" > a new issue </a> " <br><br>#}
+{#                >> Back to " <a href="{% url 'home' %}"  style="color: lightcyan" > Home Page </a> " </p>#}
+{#            </h3>#}
+{#        </div>#}
+{#    </body>#}
+{#{% endblock note %}#}
+{#</html>#}
+{##}
 

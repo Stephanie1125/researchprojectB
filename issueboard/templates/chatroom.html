@@ -1,13 +1,12 @@
 
-{% extends 'home.html' %}
+{% extends 'issue_post.html' %}
+{% block side %}
+{% endblock side %}
 
 {% block issuepost %}
 {% for room in rooms %}
 <h3>
 <a style="color: darkblue;" href="{% url 'livechat' roomname=room.name %}">{{ room }}</a>
-</h3>
+</h3><br><br>
 {% endfor %}
 {% endblock issuepost %}
-
-{% block note %}
-{% endblock note %}

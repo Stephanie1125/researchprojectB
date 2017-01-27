@@ -1,62 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>ProjectB&C - userlogin - Stephanie</title>
-    <style>
-        .center{
-            margin: auto;
-            width: 98%;
-            border: 3px solid snow;
-            padding: 20px;
-            }
-        em{
-            color: floralwhite;
-            }
+{% extends 'home.html' %}
 
-        label{
-            display: block;
-            margin: 10px;
-        }
 
-        .helptext {
-            display: none;
-        }
 
-        input:not([type="submit"]) {
-            width: 80%;
-            border: 0;
-            border-radius: 0;
-            outline: 0;
-            background: transparent;
-            border-bottom: 1px solid #ffffff;
-            color: white;
-        }
-
-        input:not([type="submit"]):focus {
-        border-bottom: 1px solid cyan;
-        }
-
-        .errorlist {
-            color: red;
-        }
-    </style>
-</head>
-    <h1><b style="color:snow; font-size: larger"> -- {{ title }} -- </b></h1>
-        <p align = right><a href="{% url 'home' %}"  style="color: snow" > Home Page </a>&nbsp;&nbsp;
-        {% block top %}{% endblock top %}
-<body style="margin: 5%" background="https://images.unsplash.com/photo-1465158753229-aa725fff85a1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=1b1d5afac6ea6583b441b809b188bdae">
-        <br>
-            <div class = "center">
-            <form method="POST" action="">
-                {% csrf_token %}
-                {% block form %}
+{% block content %}
+    {% block top %}{% endblock top %}
+    <div class = "center">
+        <form method="POST" action="">
+            {% csrf_token %}
+            {% block form %}
                 <em>{{ form }}</em><br><br>
                 <input type="submit" value="------ Submit -------">
                 {% endblock form %}
-            </form>
-            </div>
+        </form>
+    </div>
 
-</body>
+{% endblock content %}
 
-</html>
+
+
+
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>ProjectB&C - userlogin - Stephanie</title>#}
+{#    <style>#}
+{#        .center{#}
+{#            margin: auto;#}
+{#            width: 98%;#}
+{#            border: 3px solid snow;#}
+{#            padding: 20px;#}
+{#            }#}
+{#        em{#}
+{#            color: floralwhite;#}
+{#            }#}
+{##}
+{#        label{#}
+{#            display: block;#}
+{#            margin: 10px;#}
+{#        }#}
+{##}
+{#        .helptext {#}
+{#            display: none;#}
+{#        }#}
+{##}
+{#        input:not([type="submit"]) {#}
+{#            width: 80%;#}
+{#            border: 0;#}
+{#            border-radius: 0;#}
+{#            outline: 0;#}
+{#            background: transparent;#}
+{#            border-bottom: 1px solid #ffffff;#}
+{#            color: white;#}
+{#        }#}
+{##}
+{#        input:not([type="submit"]):focus {#}
+{#        border-bottom: 1px solid cyan;#}
+{#        }#}
+{##}
+{#        .errorlist {#}
+{#            color: red;#}
+{#        }#}
+{#    </style>#}
+{#</head>#}
+{#    <h1><b style="color:snow; font-size: larger"> -- {{ title }} -- </b></h1>#}
+{#        <p align = right><a href="{% url 'home' %}"  style="color: snow" > Home Page </a>&nbsp;&nbsp;#}
+{#        {% block top %}{% endblock top %}#}
+{#<body style="margin: 5%" background="https://images.unsplash.com/photo-1465158753229-aa725fff85a1?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=1b1d5afac6ea6583b441b809b188bdae">#}
+{#        <br>#}
+{##}
+{##}
+{#</body>#}
+{##}
+{#</html>#}
+
+

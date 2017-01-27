@@ -13,7 +13,8 @@ def livechat(request, roomname):
         message_list = message_list.filter(
             Q(room__icontains=room_id)).distinct()
 
-    return render(request, 'livechat.html', {'message_list': message_list, 'form': form, 'roomname':roomname})
+    return render(request, 'livechat.html', {'message_list': message_list, 'form': form, 'roomname':roomname,
+                                             'username': request.user.username,})
 
 
 class MessageForm(forms.Form):
@@ -64,4 +65,6 @@ def chatroom_admin(request):
 
     return render(request, 'chatroom.html', {
         'rooms': rooms,
+        'username': request.user.username,
     })
+

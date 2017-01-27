@@ -1,7 +1,9 @@
 
 {% extends 'form.html' %}
+{% block menu %}
+Welcome to the User Register page!
+{% endblock menu %}
 
 {% block top %}
-    <a href="{% url 'login' %}"  style="color: snow" > User Login </a><br/></br>
-    <span style="color: lightcyan">Please complete the registration form.</span>
+    <h3>--- Please complete the registration form ---</h3>
 {% endblock top %}

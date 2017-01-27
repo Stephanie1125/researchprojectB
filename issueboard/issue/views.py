@@ -1,3 +1,5 @@
+import os
+from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect
 from .models import IssuePost, IssueChat
 from django import forms
@@ -9,13 +11,24 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
 
-
 def initial(request):
     return redirect("/home")
 
-
 @login_required(login_url='/login')
 def home(request):
+    return render(request, 'home.html', {'username': request.user.username})
+
+@login_required(login_url='/login')
+def about(request):
+    return render(request, 'about.html', {'username': request.user.username})
+
+@login_required(login_url='/login')
+def contact(request):
+    return render(request, 'contact.html', {'username': request.user.username})
+
+
+@login_required(login_url='/login')
+def home_issuepost(request):
     issue_list = IssuePost.objects.all().order_by('-create_time')
     query = request.GET.get("q")
     if query:
@@ -31,7 +44,7 @@ def home(request):
         issues = paginator.page(1)
     except EmptyPage:
         issues = paginator.page(paginator.num_pages)
-    return render(request, 'home.html', {
+    return render(request, 'issue_post.html', {
         'issues': issues,
         'username': request.user.username
     })
@@ -80,6 +93,7 @@ def issue_detail(request, pk):
     return render(request, 'issue.html', {
         'issue': issue,
         'issue_chat_list': issue_chat_list,
+        'username': request.user.username,
     })
 
 
@@ -108,6 +122,7 @@ def add_issue(request):
     return render(request, 'newissue.html', {
         'issue_list': issue_list,
         'form': form,
+        'username': request.user.username
     })
 
 
@@ -128,10 +143,11 @@ def issue_submit(request):
             save_issuepost.content = content
             save_issuepost.save()
 
-            return redirect('/home')
+            return redirect('/issuepost')
 
         context = {
             'form': f,
+            'username': request.user.username,
         }
         return render(request, 'newissue.html', context)
 
@@ -161,3 +177,30 @@ def issue_chat_submit(request, pk):
     return redirect(reverse('issue_detail', args=(pk,)))
 
 
+@staff_member_required
+def export(request):
+    def write_to_file(post, chat_list, output_path):
+        outputfile = os.path.join(output_path, str(post.id))
+        contents = [post]
+        contents += [c for c in chat_list]
+
+        with open(outputfile, "w") as fout:
+            for item in contents:
+                fout.write("\t".join([item.name, item.get_content(), str(item.get_time())]) + "\n")
+
+    path = os.path.join(os.path.expanduser("~"), "issuepost_export")
+    if not os.path.exists(path):
+        os.mkdir(path)
+    post_dict = {post.title:post for post in IssuePost.objects.all()}
+    chat_list = IssueChat.objects.all()
+    dialogues = {}
+
+    for chat in chat_list:
+        the_post = post_dict[chat.issue_title]
+        dialogues.setdefault(the_post, [])
+        dialogues[the_post].append(chat)
+
+    for post, chat_list in dialogues.items():
+        write_to_file(post, chat_list, path)
+
+    return redirect('/issuepost')

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ChatBoard, ChatRoom
+from .models import ChatBoard
 
 
 class ChatBoardAdmin(admin.ModelAdmin):
@@ -7,9 +7,3 @@ class ChatBoardAdmin(admin.ModelAdmin):
 
 
 admin.site.register(ChatBoard, ChatBoardAdmin)
-
-
-class ChatRoomAdmin(admin.ModelAdmin):
-    list_display = ('room', 'create_time')
-
-admin.site.register(ChatRoom, ChatRoomAdmin)
